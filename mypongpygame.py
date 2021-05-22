@@ -93,10 +93,6 @@ while game_loop:
     if ball_y <= 40:
         ball_dy *= -1
 
-    # ball collision with floor
-    if ball_y > 590:
-        ball_dy *= -1
-    
     # ball collision with left wall
     if ball_x <= 0:
         ball_dx *= -1
@@ -105,8 +101,20 @@ while game_loop:
     if ball_x >= 790:
         ball_dx *= -1
 
-    # ball collision with the player 1 's paddle
-    if ball_y + 10 >= 545 and ball_y + 10 <= 560:
+     # ball collision with floor
+    if ball_y > 590:
+        ball_dy *= -1 
+        lives -= 1
+        if lives == 0:
+            #Display Game Over Message for 3 seconds
+            font = pygame.font.Font(None, 74)
+            text = font.render("GAME OVER", 1, white)
+            screen.blit(text, (250,300))
+            pygame.display.flip()
+            pygame.time.wait(3000)
+
+    # ball collision with the paddle's top
+    if ball_y + 10 >= 550 and ball_y + 10 <= 560:
         if ball_x + 10 >= paddle_x:
             if ball_x - 10 < paddle_x + 150:
                 if ball_x - 10 >= paddle_x + 100:
@@ -124,11 +132,13 @@ while game_loop:
                         ball_dx = -vel3
                         ball_dy = -vel1
 
-    # ball collision with the player 1 's paddle
+    # ball collision with the paddle's side
     if ball_y + 10 > 555:
-        if ball_x + 10 >= paddle_x - 10:
-            if ball_x - 10 < paddle_x + 160:
-                ball_dx *= -1
+        if sideimpulse == True:
+            if ball_x + 10 >= paddle_x - 10:
+                if ball_x - 10 < paddle_x + 160:
+                    ball_dx *= -1
+                    sideimpulse = False
 
     screen.blit(paddle, (paddle_x, 560))
     screen.blit(ball, (ball_x, ball_y))
