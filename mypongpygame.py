@@ -75,13 +75,13 @@ while keepplaying:
 
     # ball collision with the player 1 's paddle
     if ball_y >= 545 :
-        if paddle_1_x + 85 < ball_x or paddle_1_x + 85 > ball_x:
+        if paddle_1_x + 85 < ball_x or paddle_1_x - 85 > ball_x:
             ball_dy *= -1
 
     screen.blit(paddle_1, (paddle_1_x, paddle_1_y))
     screen.blit(ball, (ball_x, ball_y))
     pygame.display.flip()
     
-    fps.tick(60)
+    fps.tick(60)cle
 
 pygame.quit()
