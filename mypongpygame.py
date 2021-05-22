@@ -82,6 +82,6 @@ while keepplaying:
     screen.blit(ball, (ball_x, ball_y))
     pygame.display.flip()
     
-    fps.tick(60)cle
+    fps.tick(60)
 
 pygame.quit()
