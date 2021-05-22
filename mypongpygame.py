@@ -74,7 +74,7 @@ while keepplaying:
         ball_dx *= -1
 
     # ball collision with the player 1 's paddle
-    if ball_y >= 545:
+    if ball_y >= 545 :
         if paddle_1_x + 75 > ball_x + 10:
             if paddle_1_x - 75 < ball_x -10:
                 ball_dy *= -1
