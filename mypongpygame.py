@@ -76,10 +76,3 @@ while keepplaying:
     fps.tick(60)
 
 pygame.quit()
-
-
-
-
-
-
-
