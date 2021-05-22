@@ -19,27 +19,40 @@ score = 0
 lives = 2
 
 #Creating Paddle
-paddle_1 = pygame.image.load("assets/paddle.png")
-paddle_1_y = 560
+paddle = pygame.image.load("assets/paddle.png")
+paddle_x = 325
+paddle_right = False
+paddle_left = False
 
 # ball
 ball = pygame.image.load("assets/ball.png")
 ball_x = 640
 ball_y = 360
 ball_dx = 5
-ball_dy = 5
+ball_dy = -5
 
 # Variable for the following while loop
-keepplaying = True
-
-# Controling game's fps
+game_loop = True
 fps = pygame.time.Clock()
 
-while keepplaying:
+while game_loop:
     
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            keepplaying = False
+            game_loop = False
+        
+        #  keystroke events
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_RIGHT:
+                paddle_right = True
+            if event.key == pygame.K_LEFT:
+                paddle_left = True
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_RIGHT:
+                paddle_right = False
+            if event.key == pygame.K_LEFT:
+                paddle_left = False
+        
 
     screen.fill(black)
     pygame.draw.line(screen, white, [0, 38],
@@ -56,20 +69,44 @@ while keepplaying:
     ball_x = ball_x + ball_dx
     ball_y = ball_y + ball_dy
 
-    # ball collision with upper wall
-    if ball_y > 590:
-        ball_dy *= -1
+    # paddle right movement
+    if paddle_right:
+        if paddle_x <= 650:
+            paddle_x += 5
+    else:
+        paddle_x += 0
+
+    # paddle 1 left movement
+    if paddle_left:
+        if paddle_x >= 0:
+            paddle_x -= 5
+    else:
+        paddle_x += 0
 
     # ball collision with upper wall
+    if ball_y <= 40:
+        ball_dy *= -1
+
+    # ball collision with floor
     if ball_y > 590:
         ball_dy *= -1
     
-    # ball collision with upper wall
-    if ball_y > 590:
-        ball_dy *= -1
+    # ball collision with left wall
+    if ball_x <= 0:
+        ball_dx *= -1
+    
+    # ball collision with right wall
+    if ball_x >= 790:
+        ball_dx *= -1
+
+    # ball collision with the player 1 's paddle
+    if ball_y > 545:
+        if paddle_x < ball_x + 25:
+            if paddle_x + 150 > ball_x:
+                ball_dy *= -1
 
 
-    screen.blit(paddle_1, (325, paddle_1_y))
+    screen.blit(paddle, (paddle_x, 560))
     screen.blit(ball, (ball_x, ball_y))
     pygame.display.flip()
     
