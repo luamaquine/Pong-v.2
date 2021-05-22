@@ -20,7 +20,6 @@ lives = 2
 
 #Creating Paddle
 paddle_1 = pygame.image.load("assets/paddle.png")
-paddle_1_x = 350
 paddle_1_y = 560
 
 # ball
@@ -53,8 +52,27 @@ while keepplaying:
     text = font.render("Lives: " + str(lives), 1, white)
     screen.blit(text, (650, 10))
 
+    # ball movement
+    ball_x = ball_x + ball_dx
+    ball_y = ball_y + ball_dy
+
+    # ball collision with upper wall
+    if ball_y > 590:
+        ball_dy *= -1
+
+    # ball collision with upper wall
+    if ball_y > 590:
+        ball_dy *= -1
+    
+    # ball collision with upper wall
+    if ball_y > 590:
+        ball_dy *= -1
+
+
     screen.blit(paddle_1, (325, paddle_1_y))
     screen.blit(ball, (ball_x, ball_y))
     pygame.display.flip()
-
+    
     fps.tick(60)
+
+pygame.quit()
