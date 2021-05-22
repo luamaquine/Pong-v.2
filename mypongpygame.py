@@ -28,8 +28,14 @@ paddle_left = False
 ball = pygame.image.load("assets/ball.png")
 ball_x = 640
 ball_y = 360
-ball_dx = 5
-ball_dy = -5
+sideimpulse = True
+
+vel1 = 6
+vel2 = 8
+vel3 = 10
+
+ball_dx = -vel1
+ball_dy = -vel1
 
 # Variable for the following while loop
 game_loop = True
@@ -72,14 +78,14 @@ while game_loop:
     # paddle right movement
     if paddle_right:
         if paddle_x <= 650:
-            paddle_x += 5
+            paddle_x += 10
     else:
         paddle_x += 0
 
     # paddle 1 left movement
     if paddle_left:
         if paddle_x >= 0:
-            paddle_x -= 5
+            paddle_x -= 10
     else:
         paddle_x += 0
 
@@ -100,11 +106,29 @@ while game_loop:
         ball_dx *= -1
 
     # ball collision with the player 1 's paddle
-    if ball_y > 545:
-        if paddle_x < ball_x + 25:
-            if paddle_x + 150 > ball_x:
-                ball_dy *= -1
+    if ball_y + 10 >= 545 and ball_y + 10 <= 560:
+        if ball_x + 10 >= paddle_x:
+            if ball_x - 10 < paddle_x + 150:
+                if ball_x - 10 >= paddle_x + 100:
+                    ball_dx = vel3
+                    ball_dy *= -1
+                if ball_x - 10 > paddle_x + 50:
+                    if ball_x <= paddle_x + 75:
+                        ball_dy = -vel3
+                        if ball_dx > 0:
+                            ball_dx = vel1
+                        else:
+                            ball_dx = -vel1
+                if ball_x - 10 > paddle_x:
+                    if ball_x <= paddle_x + 50:
+                        ball_dx = -vel3
+                        ball_dy = -vel1
 
+    # ball collision with the player 1 's paddle
+    if ball_y + 10 > 555:
+        if ball_x + 10 >= paddle_x - 10:
+            if ball_x - 10 < paddle_x + 160:
+                ball_dx *= -1
 
     screen.blit(paddle, (paddle_x, 560))
     screen.blit(ball, (ball_x, ball_y))
