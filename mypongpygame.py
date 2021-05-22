@@ -20,7 +20,6 @@ lives = 2
 
 #Creating Paddle
 paddle = pygame.image.load("assets/paddle.png")
-paddle_y = 560
 paddle_x = 325
 paddle_right = False
 paddle_left = False
@@ -72,13 +71,15 @@ while game_loop:
 
     # paddle right movement
     if paddle_right:
-        paddle_x += 5
+        if paddle_x <= 650:
+            paddle_x += 5
     else:
         paddle_x += 0
 
     # paddle 1 left movement
     if paddle_left:
-        paddle_x -= 5
+        if paddle_x >= 0:
+            paddle_x -= 5
     else:
         paddle_x += 0
 
@@ -87,7 +88,7 @@ while game_loop:
         ball_dy *= -1
 
     # ball collision with floor
-    if ball_y >= 590:
+    if ball_y > 590:
         ball_dy *= -1
     
     # ball collision with left wall
@@ -99,12 +100,13 @@ while game_loop:
         ball_dx *= -1
 
     # ball collision with the player 1 's paddle
-    if ball_y >= 545 :
-        if paddle_x + 85 < ball_x or paddle_x - 85 > ball_x:
-            ball_dy *= -1
+    if ball_y > 545:
+        if paddle_x < ball_x + 25:
+            if paddle_x + 150 > ball_x:
+                ball_dy *= -1
 
 
-    screen.blit(paddle, (paddle_x, paddle_y))
+    screen.blit(paddle, (paddle_x, 560))
     screen.blit(ball, (ball_x, ball_y))
     pygame.display.flip()
     
