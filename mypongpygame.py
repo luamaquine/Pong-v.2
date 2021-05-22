@@ -19,28 +19,41 @@ score = 0
 lives = 2
 
 #Creating Paddle
-paddle_1 = pygame.image.load("assets/paddle.png")
-paddle_1_y = 560
-paddle_1_x = 325
+paddle = pygame.image.load("assets/paddle.png")
+paddle_y = 560
+paddle_x = 325
+paddle_right = False
+paddle_left = False
 
 # ball
 ball = pygame.image.load("assets/ball.png")
 ball_x = 640
 ball_y = 360
 ball_dx = 5
-ball_dy = 5
+ball_dy = -5
 
 # Variable for the following while loop
-keepplaying = True
-
-# Controling game's fps
+game_loop = True
 fps = pygame.time.Clock()
 
-while keepplaying:
+while game_loop:
     
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            keepplaying = False
+            game_loop = False
+        
+        #  keystroke events
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_RIGHT:
+                paddle_right = True
+            if event.key == pygame.K_LEFT:
+                paddle_left = True
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_RIGHT:
+                paddle_right = False
+            if event.key == pygame.K_LEFT:
+                paddle_left = False
+        
 
     screen.fill(black)
     pygame.draw.line(screen, white, [0, 38],
@@ -56,6 +69,18 @@ while keepplaying:
     # ball movement
     ball_x = ball_x + ball_dx
     ball_y = ball_y + ball_dy
+
+    # paddle right movement
+    if paddle_right:
+        paddle_x += 5
+    else:
+        paddle_x += 0
+
+    # paddle 1 left movement
+    if paddle_left:
+        paddle_x -= 5
+    else:
+        paddle_x += 0
 
     # ball collision with upper wall
     if ball_y <= 40:
@@ -75,10 +100,11 @@ while keepplaying:
 
     # ball collision with the player 1 's paddle
     if ball_y >= 545 :
-        if paddle_1_x + 85 < ball_x or paddle_1_x - 85 > ball_x:
+        if paddle_x + 85 < ball_x or paddle_x - 85 > ball_x:
             ball_dy *= -1
 
-    screen.blit(paddle_1, (paddle_1_x, paddle_1_y))
+
+    screen.blit(paddle, (paddle_x, paddle_y))
     screen.blit(ball, (ball_x, ball_y))
     pygame.display.flip()
     
